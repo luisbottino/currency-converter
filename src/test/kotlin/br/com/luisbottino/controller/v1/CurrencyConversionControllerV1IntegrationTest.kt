@@ -12,11 +12,11 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.transaction.annotation.Transactional
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -26,6 +26,7 @@ class CurrencyConversionControllerV1IntegrationTest
     private val mockMvc: MockMvc,
     private val repository: ConversionRepository
 ) {
+
     @BeforeEach
     fun setup() {
         repository.deleteAll()
