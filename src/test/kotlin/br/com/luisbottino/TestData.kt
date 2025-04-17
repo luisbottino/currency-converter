@@ -4,6 +4,10 @@ import java.time.LocalDateTime
 
 object TestData {
 
+    const val PATH_API_V1_CONVERSIONS = "/api/v1/conversions/"
+    const val PAGE_QUERY_PARAM = "page"
+    const val SIZE_QUERY_PARAM = "size"
+
     const val DEFAULT_TRANSACTION_ID = 1L
     const val DEFAULT_USER_ID = "user123"
     const val USD_CURRENCY = "USD"
