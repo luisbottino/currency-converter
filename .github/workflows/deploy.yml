@@ -42,6 +42,8 @@ jobs:
 
       # Step 6
       - name: Log in to Heroku Container Registry
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
           echo "$HEROKU_API_KEY" | docker login --username=_ --password-stdin registry.heroku.com
           echo "Configuring Heroku stack..."
