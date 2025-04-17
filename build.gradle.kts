@@ -22,7 +22,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-logging")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 
 
     //DB
@@ -37,6 +37,8 @@ dependencies {
     testImplementation("org.junit.platform:junit-platform-commons:1.10.2")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.2")
     testRuntimeOnly("org.junit.platform:junit-platform-engine:1.10.2")
+    testImplementation("org.mockito:mockito-core:5.5.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.0.0")
     testImplementation("io.mockk:mockk:1.13.8")
     testImplementation("org.assertj:assertj-core:3.24.2")
     testImplementation(kotlin("test"))

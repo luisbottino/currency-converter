@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam
 @Validated
 class CurrencyConversionControllerV1(
     private val conversionService: ConversionService
-) {
+) : CurrencyConversionControllerV1Doc {
 
     private val logger: Logger = LoggerFactory.getLogger(CurrencyConversionControllerV1::class.java)
 
     @GetMapping("/{userId}")
-    fun getConversionHistory(
+    override fun getConversionHistory(
         @PathVariable
         @NotBlank(message = "The userId must not be blank or null.")
         userId: String,
