@@ -48,6 +48,12 @@ tasks.test {
     useJUnitPlatform()
 }
 
+tasks.bootJar {
+    archiveBaseName.set("currency-converter") // Nome do arquivo .jar será "app"
+    archiveVersion.set("")     // Evita adicionar informações de versão ao nome do arquivo
+}
+
+
 kotlin {
     jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(21))

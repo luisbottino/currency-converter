@@ -34,7 +34,7 @@ jobs:
 
       # Step 4
       - name: Build Application
-        run: ./gradlew build --no-daemon
+        run: ./gradlew clean bootJar --no-daemon
 
       # Step 5
       - name: Run Tests
@@ -64,3 +64,7 @@ jobs:
       - name: Release the Application
         run: |
           heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}
+
+      # Step 10
+      - name: Check Heroku Logs (Optional)
+        run: heroku logs -n 100 --app ${{ secrets.HEROKU_APP_NAME }}
