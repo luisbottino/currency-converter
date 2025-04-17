@@ -4,7 +4,8 @@ import java.time.LocalDateTime
 
 object TestData {
 
-    const val PATH_API_V1_CONVERSIONS = "/api/v1/conversions/"
+    const val PATH_API_V1_CONVERSIONS = "/api/v1/conversions"
+    const val USER_ID_QUERY_PARAM = "userId"
     const val PAGE_QUERY_PARAM = "page"
     const val SIZE_QUERY_PARAM = "size"
 
