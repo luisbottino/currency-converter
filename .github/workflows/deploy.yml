@@ -45,15 +45,16 @@ jobs:
         run: |
           curl https://cli-assets.heroku.com/install.sh | sh
 
-      - name: Log in to Heroku CLI and Container Registry
+      # Step 7
+      - name: Authenticate with Heroku CLI and Container Registry
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
         run: |
-          echo "$HEROKU_API_KEY" | docker login --username=_ --password-stdin registry.heroku.com
-          echo "machine api.heroku.com\n  login $HEROKU_EMAIL\n  password $HEROKU_API_KEY\nmachine git.heroku.com\n  login $HEROKU_EMAIL\n  password $HEROKU_API_KEY" > ~/.netrc
-          heroku auth:whoami
+          echo "machine api.heroku.com\n  login _\n  password $HEROKU_API_KEY\nmachine git.heroku.com\n  login _\n  password $HEROKU_API_KEY" > ~/.netrc
+          chmod 600 ~/.netrc
+          heroku container:login
           heroku stack:set container -a ${{ secrets.HEROKU_APP_NAME }}
+          heroku auth:whoami
 
       # Step 8
       - name: Build and Push Docker Image to Heroku
