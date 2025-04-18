@@ -7,7 +7,7 @@ import jakarta.validation.Valid
 import org.springframework.data.domain.Slice
 import org.springframework.validation.annotation.Validated
 
-@Tag(name = "Currency Conversion", description = "Endpoints to manage currency conversion operations")
+@Tag(name = "Currency Conversion", description = "Endpoints to manage currency conversions operations")
 @Validated
 interface CurrencyConversionControllerV1Doc {
 
