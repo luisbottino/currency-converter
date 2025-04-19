@@ -1,0 +1,29 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/v1/latest",
+    "queryParameters": {
+      "access_key": {
+        "matches": ".*"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "success": true,
+      "timestamp": 1745060354,
+      "base": "EUR",
+      "date": "2025-04-19",
+      "rates": {
+        "USD": 1.137236,
+        "BRL": 6.605299,
+        "EUR": 1.0,
+        "JPY": 161.682017
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
