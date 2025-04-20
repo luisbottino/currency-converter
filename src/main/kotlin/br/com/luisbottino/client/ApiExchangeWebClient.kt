@@ -1,5 +1,7 @@
 package br.com.luisbottino.client
 
+import br.com.luisbottino.exception.CurrencyRateNotFoundException
+import br.com.luisbottino.exception.ExternalServiceUnavailableException
 import org.springframework.stereotype.Service
 
 @Service
@@ -20,14 +22,15 @@ class ApiExchangeWebClient(
             }
             .retrieve()
             .bodyToMono(ApiExchangeRateResponse::class.java)
-            .block() ?: throw RuntimeException("Error fetching exchange rate")
+            .block() ?: throw ExternalServiceUnavailableException("Error fetching exchange rate")
 
         val rates = response.rates
-        val fromRate = rates[from]
-            ?: throw IllegalArgumentException("Missing rate for $from")
-        val toRate = rates[to]
-            ?: throw IllegalArgumentException("Missing rate for $to")
+        val conversionRate = rates[from]?.let { fromRate ->
+            rates[to]?.let { toRate ->
+                toRate / fromRate
+            }
+        }
 
-        return toRate / fromRate
+        return conversionRate ?: throw CurrencyRateNotFoundException(from, to)
     }
 }

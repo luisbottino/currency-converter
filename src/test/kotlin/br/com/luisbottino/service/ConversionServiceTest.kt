@@ -2,6 +2,7 @@ package br.com.luisbottino.service
 
 import br.com.luisbottino.ConversionTestData
 import br.com.luisbottino.TestData
+import br.com.luisbottino.client.ApiExchangeWebClient
 import br.com.luisbottino.controller.v1.ConversionHistoryResponse
 import br.com.luisbottino.createConversion
 import br.com.luisbottino.model.Conversion
@@ -19,6 +20,7 @@ import org.springframework.data.domain.SliceImpl
 class ConversionServiceTest {
 
     private val repository: ConversionRepository = mockk()
+    private val apiExchangeWebClient: ApiExchangeWebClient = mockk()
     private lateinit var service: ConversionService
 
     private val pageable = PageRequest.of(TestData.DEFAULT_PAGE_NUMBER, TestData.DEFAULT_PAGE_SIZE)
@@ -26,7 +28,7 @@ class ConversionServiceTest {
 
     @BeforeEach
     fun setUp() {
-        service = ConversionService(repository)
+        service = ConversionService(repository, apiExchangeWebClient)
     }
 
     @Test
