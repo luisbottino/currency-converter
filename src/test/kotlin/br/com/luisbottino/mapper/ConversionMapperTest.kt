@@ -5,6 +5,7 @@ import br.com.luisbottino.TestData
 import br.com.luisbottino.createConversion
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import java.math.BigDecimal
 
 class ConversionMapperTest {
 
@@ -20,7 +21,7 @@ class ConversionMapperTest {
         assertThat(result.toCurrency).isEqualTo(TestData.BRL_CURRENCY)
         assertThat(result.originalAmount).isEqualTo(TestData.DEFAULT_ORIGINAL_AMOUNT)
         assertThat(result.conversionRate).isEqualTo(TestData.DEFAULT_CONVERSION_RATE)
-        assertThat(result.convertedAmount).isEqualTo(500.0)
+        assertThat(result.convertedAmount).usingComparator(BigDecimal::compareTo).isEqualTo(BigDecimal("500"))
         assertThat(result.timestamp).isEqualTo(TestData.DEFAULT_TIMESTAMP)
     }
 
@@ -28,15 +29,18 @@ class ConversionMapperTest {
     fun givenConversionWithExtremeValues_whenToConversionHistoryResponse_thenMapValuesCorrectly() {
         val conversion = createConversion(
             ConversionTestData(
-                originalAmount = Double.MAX_VALUE,
-                conversionRate = 2.0
+                originalAmount = BigDecimal.valueOf(Double.MAX_VALUE),
+                conversionRate = BigDecimal.TWO
             )
         )
 
         val result = conversion.toConversionHistoryResponse()
 
-        assertThat(result.originalAmount).isEqualTo(Double.MAX_VALUE)
-        assertThat(result.conversionRate).isEqualTo(2.0)
-        assertThat(result.convertedAmount).isEqualTo(Double.MAX_VALUE * 2.0)
+        assertThat(result.originalAmount).usingComparator(BigDecimal::compareTo)
+            .isEqualTo(BigDecimal.valueOf(Double.MAX_VALUE))
+        assertThat(result.conversionRate).usingComparator(BigDecimal::compareTo)
+            .isEqualTo(BigDecimal.TWO)
+        assertThat(result.convertedAmount).usingComparator(BigDecimal::compareTo)
+            .isEqualTo(BigDecimal.valueOf(Double.MAX_VALUE).multiply(BigDecimal.TWO))
     }
 }

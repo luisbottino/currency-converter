@@ -25,9 +25,16 @@ enum class ErrorCode(
         httpStatus = HttpStatus.INTERNAL_SERVER_ERROR
     ),
 
+    INVALID_API_KEY(
+        code = "INF002",
+        description = "Invalid or missing access key for external API.",
+        httpStatus = HttpStatus.UNAUTHORIZED
+    ),
+
     UNKNOWN_ERROR(
         code = "GEN001",
         description = "An unexpected internal error has occurred.",
         httpStatus = HttpStatus.INTERNAL_SERVER_ERROR
-    )
+    ),
+
 }

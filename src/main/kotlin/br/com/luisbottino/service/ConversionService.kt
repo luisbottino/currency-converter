@@ -1,7 +1,6 @@
 package br.com.luisbottino.service
 
 
-import br.com.luisbottino.client.ApiExchangeWebClient
 import br.com.luisbottino.controller.v1.ConversionHistoryResponse
 import br.com.luisbottino.controller.v1.PostConversionRequest
 import br.com.luisbottino.mapper.toConversionHistoryResponse
@@ -17,7 +16,7 @@ import java.time.LocalDateTime
 @Service
 class ConversionService(
     private val repository: ConversionRepository,
-    private val apiExchangeWebClient: ApiExchangeWebClient
+    private val exchangeRateService: ExchangeRateService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(ConversionService::class.java)
@@ -30,7 +29,9 @@ class ConversionService(
     }
 
     fun convertCurrency(conversionRequest: PostConversionRequest): ConversionHistoryResponse {
-        val conversionRate = apiExchangeWebClient.getRate(conversionRequest.fromCurrency, conversionRequest.toCurrency)
+        val conversionRate = exchangeRateService.getConversionRate(
+            conversionRequest.fromCurrency, conversionRequest.toCurrency
+        )
 
         val conversion = Conversion(
             userId = conversionRequest.userId,
@@ -41,7 +42,19 @@ class ConversionService(
             timestamp = LocalDateTime.now()
         )
 
+        logger.debug("Conversion calculated: from={} to={}, rate={}, amount={}, result={}",
+            conversion.fromCurrency,
+            conversion.toCurrency,
+            conversion.conversionRate,
+            conversion.originalAmount,
+            conversion.getConvertedAmount()
+        )
+
         val conversionSaved = repository.save(conversion)
+
+        logger.debug("Conversion saved: id={}, userId={}, timestamp={}",
+            conversionSaved.id, conversionSaved.userId, conversionSaved.timestamp
+        )
         return conversionSaved.toConversionHistoryResponse()
     }
 }

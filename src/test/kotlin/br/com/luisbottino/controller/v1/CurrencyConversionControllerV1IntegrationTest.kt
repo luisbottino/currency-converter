@@ -50,8 +50,8 @@ class CurrencyConversionControllerV1IntegrationTest
             .andExpect(jsonPath("$.content[0].userId").value(TestData.DEFAULT_USER_ID))
             .andExpect(jsonPath("$.content[0].fromCurrency").value(TestData.USD_CURRENCY))
             .andExpect(jsonPath("$.content[0].toCurrency").value(TestData.BRL_CURRENCY))
-            .andExpect(jsonPath("$.content[0].originalAmount").value(TestData.DEFAULT_ORIGINAL_AMOUNT))
-            .andExpect(jsonPath("$.content[0].conversionRate").value(TestData.DEFAULT_CONVERSION_RATE))
+            .andExpect(jsonPath("$.content[0].originalAmount").value(TestData.DEFAULT_ORIGINAL_AMOUNT.toDouble()))
+            .andExpect(jsonPath("$.content[0].conversionRate").value(TestData.DEFAULT_CONVERSION_RATE.toDouble()))
     }
 
     @Test

@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
+import java.math.BigDecimal
 
 data class PostConversionRequest(
     @field:NotNull(message = "The userId must not be blank or null.")
@@ -25,6 +26,6 @@ data class PostConversionRequest(
 
     @field:NotNull(message = "The amount must not be null.")
     @field:Min(value = 0, message = "The amount must be greater than or equal to 0.")
-    @Schema(description = "Amount of money to convert", example = "100.0", required = true)
-    val amount: Double
+    @Schema(description = "Amount of money to convert", example = "100.00", required = true)
+    val amount: BigDecimal
 )

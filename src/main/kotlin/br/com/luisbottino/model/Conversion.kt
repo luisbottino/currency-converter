@@ -4,6 +4,7 @@ import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import java.math.BigDecimal
 
 @Entity
 data class Conversion(
@@ -12,12 +13,12 @@ data class Conversion(
     val id: Long = 0,
     val userId: String = "",
     val fromCurrency: String = "",
-    val originalAmount: Double = 0.0,
+    val originalAmount: BigDecimal = BigDecimal.ZERO,
     val toCurrency: String = "",
-    val conversionRate: Double = 0.0,
+    val conversionRate: BigDecimal = BigDecimal.ZERO,
     val timestamp: java.time.LocalDateTime = java.time.LocalDateTime.now()
 ) {
-    fun getConvertedAmount(): Double {
-        return originalAmount * conversionRate
+    fun getConvertedAmount(): BigDecimal {
+        return originalAmount.multiply(conversionRate)
     }
 }
