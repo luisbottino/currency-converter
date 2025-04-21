@@ -35,7 +35,7 @@ class CurrencyConversionControllerV1(
     }
 
     @PostMapping
-    fun postConversion(
+    override fun postConversion(
         @RequestBody @Valid conversionRequest: PostConversionRequest
     ): ConversionHistoryResponse {
         logger.info("Received request to convert userId={}, from {} to {}, amount {}",

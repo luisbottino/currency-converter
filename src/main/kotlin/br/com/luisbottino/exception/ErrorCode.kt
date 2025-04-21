@@ -31,6 +31,12 @@ enum class ErrorCode(
         httpStatus = HttpStatus.UNAUTHORIZED
     ),
 
+    RESOURCE_NOT_FOUND(
+        code = "RES001",
+        description = "The requested resource was not found.",
+        httpStatus = HttpStatus.NOT_FOUND
+    ),
+
     UNKNOWN_ERROR(
         code = "GEN001",
         description = "An unexpected internal error has occurred.",

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.context.request.ServletWebRequest
 import org.springframework.web.context.request.WebRequest
+import org.springframework.web.servlet.NoHandlerFoundException
 
 @RestControllerAdvice
 class GlobalExceptionHandler {
@@ -50,6 +51,18 @@ class GlobalExceptionHandler {
         request: WebRequest
     ): ResponseEntity<ApiErrorResponse> {
         return buildResponse(ex.errorCode, request, ex.message)
+    }
+
+    @ExceptionHandler(NoHandlerFoundException::class)
+    fun handleNoHandlerFoundException(
+        ex: NoHandlerFoundException,
+        request: WebRequest
+    ): ResponseEntity<ApiErrorResponse> {
+        return buildResponse(
+            ErrorCode.RESOURCE_NOT_FOUND,
+            request,
+            "The requested endpoint '${ex.requestURL}' was not found."
+        )
     }
 
     @ExceptionHandler(Exception::class)
