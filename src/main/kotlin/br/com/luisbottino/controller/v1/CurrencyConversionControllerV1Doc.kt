@@ -144,7 +144,8 @@ interface CurrencyConversionControllerV1Doc {
 
     @Operation(
         summary = "Convert currency",
-        description = "Performs a currency conversion from one currency to another using the current exchange rate and returns the conversion details.",
+        description = "Performs a currency conversion from one currency to another using " +
+                "the current exchange rate and returns the conversion details.",
         requestBody = io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Details required to perform the currency conversion",
             required = true,
