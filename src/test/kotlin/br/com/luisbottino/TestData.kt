@@ -13,6 +13,7 @@ object TestData {
     const val DEFAULT_TRANSACTION_ID = 1L
     const val DEFAULT_USER_ID = "user123"
     const val USD_CURRENCY = "USD"
+    const val DEFAULT_BASE_CURRENCY = "EUR"
     const val BRL_CURRENCY = "BRL"
     val DEFAULT_ORIGINAL_AMOUNT = BigDecimal("100.00")
     val DEFAULT_CONVERSION_RATE = BigDecimal("5.00")
