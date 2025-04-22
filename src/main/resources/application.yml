@@ -18,7 +18,7 @@ spring:
 
 apis:
   api-exchange:
-    base-url: http://localhost:8081
+    base-url: https://api.exchangeratesapi.io
     path: /v1/latest
     query-params:
       access_key: f767873dc3d6511ac23d84b2eb7d4f4d
