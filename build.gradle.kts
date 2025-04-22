@@ -22,7 +22,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-logging")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
 
     //DB
@@ -42,6 +45,7 @@ dependencies {
     testImplementation("io.mockk:mockk:1.13.8")
     testImplementation("org.assertj:assertj-core:3.24.2")
     testImplementation(kotlin("test"))
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
 }
 
 tasks.test {
@@ -72,6 +76,17 @@ tasks.jacocoTestReport {
         csv.required.set(false)
         html.required.set(true)
     }
+
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) {
+                exclude(
+                    "**/config/ObjectMapperConfigKt.class",
+                    "**/client/ApiExchangeWebClientConfig.class"
+                )
+            }
+        })
+    )
 }
 
 tasks.jacocoTestCoverageVerification {

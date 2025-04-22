@@ -57,6 +57,12 @@ jobs:
           heroku auth:whoami
 
       # Step 8
+      - name: Set Heroku SPRING_PROFILES_ACTIVE
+        run: heroku config:set SPRING_PROFILES_ACTIVE=prd -a ${{ secrets.HEROKU_APP_NAME }}
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
+      # Step 9
       - name: Build and Push Docker Image to Heroku
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
@@ -66,6 +72,6 @@ jobs:
           export HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }}
           heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}
 
-      # Step 9
+      # Step 10
       - name: Check Heroku Logs (Optional)
         run: heroku logs -n 100 --app ${{ secrets.HEROKU_APP_NAME }}

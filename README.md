@@ -8,7 +8,7 @@ This project uses the following technologies and tools:
     - Jakarta EE for validation and annotations
 
 - **Persistence:**
-    - PostgreSQL (or other relational databases via JPA)
+    - H2 (relational database, configured for local file-based storage)
 
 - **API Documentation:**
     - OpenAPI/Swagger (via `springdoc-openapi`)
@@ -56,7 +56,7 @@ GET /api/v1/conversions
 - `size` (optional, default: `10`): The number of items per page.
 #### Example Request:
 ```shell
-curl --location 'http://localhost:8080/api/v1/conversions?userId=12345&page=0&size=10'
+  curl --location 'http://localhost:8080/api/v1/conversions?userId=12345&page=0&size=10'
 ```
 #### **Response**
 **Success Response (HTTP 200):**
@@ -111,22 +111,121 @@ curl --location 'http://localhost:8080/api/v1/conversions?userId=12345&page=0&si
       "path": "/api/v1/conversions"
   }
 ```
-- **404 Not Found:** Returned if the user has no conversion history.
+- **404 Not Found:** Returned if the resource was not found.
 - **500 Internal Server Error:** Returned for unexpected server-side issues.
+### **Currency Conversion (POST /api/v1/conversions)**
+This operation performs a currency conversion using the current exchange rate and stores the result in the database.
+#### **Endpoint:**
+```
+POST /api/v1/conversions
+```
+#### **Request Body:**
+```json
+{
+  "userId": "12345",
+  "fromCurrency": "USD",
+  "toCurrency": "BRL",
+  "amount": 100.00
+}
+```
+**Request Fields:**
+- `userId` (required): The unique identifier of the user whose conversion history is being fetched.
+- `fromCurrency` (required): The source currency code (e.g., USD).
+- `toCurrency ` (required): The target currency code (e.g., BRL).
+- `amount` (required): The numeric value to convert. Must be a positive decimal.
+#### Example Request:
+```shell
+    curl --location 'http://localhost:8080/api/v1/conversions' \
+    --header 'Content-Type: application/json' \
+    --data '{
+      "userId": "12345",
+      "fromCurrency": "USD",
+      "toCurrency": "BRL",
+      "amount": 100.00
+    }'
+```
+#### **Response**
+**Success Response (HTTP 201):**
+```json
+{
+  "transactionId": "1",
+  "userId": "12345",
+  "fromCurrency": "USD",
+  "originalAmount": 100.00,
+  "toCurrency": "BRL",
+  "convertedAmount": 500.00,
+  "conversionRate": 5.0,
+  "timestamp": "2025-04-22T12:00:00"
+}
+```
+**Error Responses:**
+- **400 Bad Request:** Returned when the input parameters are invalid (e.g., missing or invalid `userId`, invalid `page` or `size`). Example:
+```json
+  {
+      "timestamp": "2023-10-06T12:00:00",
+      "status": 400,
+      "error": "Bad Request",
+      "message": [
+          "userId: The userId must not be blank or null.",
+        "amount: The amount must be greater than or equal to 0."
+      ],
+      "path": "/api/v1/conversions"
+  }
+```
+- **401 Unauthorized:** Invalid API key from the external exchange rate service.
+- **422 Unprocessable Entity:** Missing exchange rate for the given currency pair. Example:
+```json
+  {
+  "status": 422,
+  "error": "Unprocessable Entity",
+  "code": "BUS001",
+  "message": "Conversion rate between USD and BRL was not found.",
+  "path": "/api/v1/conversions"
+}
+```
+- **500 Internal Server Error:** Returned for unexpected server-side issues.
+
 ### **How to Run**
 1. Clone the repository:
 ```shell
- git clone https://github.com/luisbottino/currency-converter.git
+  git clone https://github.com/luisbottino/currency-converter.git
 ```
-2. Build the application:
+2. Start the WireMock container (used to mock the external exchange API):
+
+The application uses a mock server to simulate responses from the real currency exchange API. This is useful because the real API (https://api.exchangeratesapi.io) has rate limits that may interfere with local testing.
+
+To start the mock server, run:
 ```shell
-   ./gradlew build
+    docker run -d \
+      -p 8081:8080 \
+      -v $PWD/wiremock:/home/wiremock \
+      wiremock/wiremock:latest
 ```
-3. Run the application:
+This will mount the local wiremock/ directory (which contains mock mappings and responses) into the container.
+```yml
+apis:
+  api-exchange:
+    base-url: http://localhost:8081
+```
+3. (Optional) To use the real external API instead of the mock:
+
+Edit the application.yml file and change the property:
+```yml
+apis:
+  api-exchange:
+    base-url: https://api.exchangeratesapi.io
+```
+>⚠️ The real API has usage limits on free tiers. Use it with caution to avoid disruptions.
+
+4. Build the application:
 ```shell
-./gradlew bootRun
+  ./gradlew build
 ```
-1. Access the OpenAPI documentation for testing the API:
+5. Run the application:
+```shell
+  ./gradlew bootRun
+```
+6. Access the OpenAPI documentation for testing the API:
 ```
  http://localhost:8080/swagger-ui.html
 ```
@@ -139,3 +238,11 @@ Reports for test results can be found in:
 ```
 /build/reports/tests/test/index.html
 ```
+### **Live Demo**
+The application is deployed and available online through Heroku.
+
+🔗 **Swagger UI:**  
+[https://currency-converter-api-app-09186484bae0.herokuapp.com/swagger-ui.html](https://currency-converter-api-app-09186484bae0.herokuapp.com/swagger-ui.html)
+
+> ⚠️ The application running on Heroku is configured to use the **real external API** for exchange rates.  
+> Be aware that the external API may **enforce request limits**, especially for free plans. Use it moderately during testing.

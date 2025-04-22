@@ -8,8 +8,10 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Slice
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.RequestBody
 
 @RestController
 @RequestMapping("/api/v1/conversions")
@@ -29,6 +31,18 @@ class CurrencyConversionControllerV1(
         val pageable = PageRequest.of(request.page, request.size)
         val history = conversionService.getConversionHistory(request.userId, pageable)
         logger.info("Returning {} conversion(s) for userId={}", history.content.size, request.userId)
+        return history
+    }
+
+    @PostMapping
+    override fun postConversion(
+        @RequestBody @Valid conversionRequest: PostConversionRequest
+    ): ConversionHistoryResponse {
+        logger.info("Received request to convert userId={}, from {} to {}, amount {}",
+            conversionRequest.userId, conversionRequest.fromCurrency, conversionRequest.toCurrency,
+            conversionRequest.amount)
+        val history = conversionService.convertCurrency(conversionRequest)
+        logger.info("Converting from {} to {}", conversionRequest.fromCurrency, conversionRequest.toCurrency)
         return history
     }
 }
