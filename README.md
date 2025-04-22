@@ -8,7 +8,7 @@ This project uses the following technologies and tools:
     - Jakarta EE for validation and annotations
 
 - **Persistence:**
-    - PostgreSQL (or other relational databases via JPA)
+    - H2 (relational database, configured for local file-based storage)
 
 - **API Documentation:**
     - OpenAPI/Swagger (via `springdoc-openapi`)
