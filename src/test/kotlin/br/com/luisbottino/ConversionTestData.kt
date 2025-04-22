@@ -10,7 +10,7 @@ data class ConversionTestData(
     val fromCurrency: String = TestData.USD_CURRENCY,
     val toCurrency: String = TestData.BRL_CURRENCY,
     val originalAmount: BigDecimal = TestData.DEFAULT_ORIGINAL_AMOUNT,
-    val conversionRate: BigDecimal = TestData.DEFAULT_CONVERSION_RATE,
+    val conversionRate: BigDecimal = TestData.DEFAULT_CONVERSION_COTATION,
     val timestamp: LocalDateTime = TestData.DEFAULT_TIMESTAMP
 )
 

@@ -81,7 +81,7 @@ class ConversionServiceTest {
         fun givenValidRequest_whenConvertCurrency_thenReturnsConvertedResponse() {
             val request = createConversionRequest()
 
-            val expectedConversionRate = TestData.DEFAULT_CONVERSION_RATE
+            val expectedConversionRate = TestData.DEFAULT_CONVERSION_COTATION
             val expectedConvertedAmount = TestData.DEFAULT_ORIGINAL_AMOUNT.multiply(expectedConversionRate)
 
             val savedConversion = Conversion(

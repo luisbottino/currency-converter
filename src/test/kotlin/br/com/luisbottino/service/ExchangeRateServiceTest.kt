@@ -23,8 +23,8 @@ class ExchangeRateServiceTest{
   @Test
   fun givenValidRates_whenGetConversionRate_thenReturnCorrectValue() {
    val rates = mapOf(
-    TestData.USD_CURRENCY to BigDecimal("1.00"),
-    TestData.BRL_CURRENCY to TestData.DEFAULT_CONVERSION_RATE
+    TestData.USD_CURRENCY to BigDecimal.ONE,
+    TestData.BRL_CURRENCY to TestData.DEFAULT_CONVERSION_COTATION
    )
    every { exchangeWebClient.getRates(TestData.USD_CURRENCY, TestData.BRL_CURRENCY) } returns rates
 
@@ -35,7 +35,7 @@ class ExchangeRateServiceTest{
 
   @Test
   fun givenMissingFromRate_whenGetConversionRate_thenThrowCurrencyRateNotFoundException() {
-   val rates = mapOf(TestData.BRL_CURRENCY to TestData.DEFAULT_CONVERSION_RATE)
+   val rates = mapOf(TestData.BRL_CURRENCY to TestData.DEFAULT_CONVERSION_COTATION)
    every { exchangeWebClient.getRates(TestData.USD_CURRENCY, TestData.BRL_CURRENCY) } returns rates
 
    assertThatThrownBy { service.getConversionRate(TestData.USD_CURRENCY, TestData.BRL_CURRENCY) }

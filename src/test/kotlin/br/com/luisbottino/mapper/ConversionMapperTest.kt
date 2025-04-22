@@ -20,7 +20,7 @@ class ConversionMapperTest {
         assertThat(result.fromCurrency).isEqualTo(TestData.USD_CURRENCY)
         assertThat(result.toCurrency).isEqualTo(TestData.BRL_CURRENCY)
         assertThat(result.originalAmount).isEqualTo(TestData.DEFAULT_ORIGINAL_AMOUNT)
-        assertThat(result.conversionRate).isEqualTo(TestData.DEFAULT_CONVERSION_RATE)
+        assertThat(result.conversionRate).isEqualTo(TestData.DEFAULT_CONVERSION_COTATION)
         assertThat(result.convertedAmount).usingComparator(BigDecimal::compareTo).isEqualTo(BigDecimal("500"))
         assertThat(result.timestamp).isEqualTo(TestData.DEFAULT_TIMESTAMP)
     }

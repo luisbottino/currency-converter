@@ -16,7 +16,8 @@ object TestData {
     const val DEFAULT_BASE_CURRENCY = "EUR"
     const val BRL_CURRENCY = "BRL"
     val DEFAULT_ORIGINAL_AMOUNT = BigDecimal("100.00")
-    val DEFAULT_CONVERSION_RATE = BigDecimal("5.00")
+    val DEFAULT_CONVERSION_COTATION = BigDecimal("5.00")
+    val DEFAULT_CONVERSION_RATE = BigDecimal("0.20")
     const val DEFAULT_PAGE_NUMBER = 0
     const val DEFAULT_PAGE_SIZE = 10
     val DEFAULT_TIMESTAMP: LocalDateTime = LocalDateTime.of(2025, 10, 25, 12, 0, 0)
