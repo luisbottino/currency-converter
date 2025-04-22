@@ -86,16 +86,16 @@ class ConversionServiceTest {
 
             val savedConversion = Conversion(
                 id = TestData.DEFAULT_TRANSACTION_ID,
-                userId = request.userId,
-                fromCurrency = request.fromCurrency,
-                toCurrency = request.toCurrency,
-                originalAmount = request.amount,
+                userId = request.userId!!,
+                fromCurrency = request.fromCurrency!!,
+                toCurrency = request.toCurrency!!,
+                originalAmount = request.amount!!,
                 conversionRate = expectedConversionRate,
                 timestamp = TestData.TIMESTAMP_NOW
             )
 
             every {
-                exchangeRateService.getConversionRate(request.fromCurrency, request.toCurrency)
+                exchangeRateService.getConversionRate(request.fromCurrency!!, request.toCurrency!!)
             } returns expectedConversionRate
 
             every { repository.save(any()) } returns savedConversion
@@ -110,7 +110,7 @@ class ConversionServiceTest {
             assertThat(result.conversionRate).isEqualByComparingTo(expectedConversionRate)
             assertThat(result.convertedAmount).isEqualByComparingTo(expectedConvertedAmount)
 
-            verify(exactly = 1) { exchangeRateService.getConversionRate(request.fromCurrency, request.toCurrency) }
+            verify(exactly = 1) { exchangeRateService.getConversionRate(request.fromCurrency!!, request.toCurrency!!) }
             verify(exactly = 1) { repository.save(any()) }
         }
 
@@ -119,7 +119,7 @@ class ConversionServiceTest {
             val request = createConversionRequest()
 
             every {
-                exchangeRateService.getConversionRate(request.fromCurrency, request.toCurrency)
+                exchangeRateService.getConversionRate(request.fromCurrency!!, request.toCurrency!!)
             } throws RuntimeException("Failed to retrieve rate")
 
             assertThatThrownBy {
@@ -127,7 +127,7 @@ class ConversionServiceTest {
             }.isInstanceOf(RuntimeException::class.java)
                 .hasMessageContaining("Failed to retrieve rate")
 
-            verify(exactly = 1) { exchangeRateService.getConversionRate(request.fromCurrency, request.toCurrency) }
+            verify(exactly = 1) { exchangeRateService.getConversionRate(request.fromCurrency!!, request.toCurrency!!) }
             verify(exactly = 0) { repository.save(any()) }
         }
     }

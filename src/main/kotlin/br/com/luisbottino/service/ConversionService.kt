@@ -6,6 +6,7 @@ import br.com.luisbottino.controller.v1.PostConversionRequest
 import br.com.luisbottino.mapper.toConversionHistoryResponse
 import br.com.luisbottino.model.Conversion
 import br.com.luisbottino.repository.ConversionRepository
+import br.com.luisbottino.util.requireField
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Pageable
@@ -29,15 +30,18 @@ class ConversionService(
     }
 
     fun convertCurrency(conversionRequest: PostConversionRequest): ConversionHistoryResponse {
-        val conversionRate = exchangeRateService.getConversionRate(
-            conversionRequest.fromCurrency, conversionRequest.toCurrency
-        )
+        val userId = requireField(conversionRequest.userId, "UserId")
+        val fromCurrency = requireField(conversionRequest.fromCurrency, "FromCurrency")
+        val toCurrency = requireField(conversionRequest.toCurrency, "ToCurrency")
+        val amount = requireField(conversionRequest.amount, "Amount")
+
+        val conversionRate = exchangeRateService.getConversionRate(fromCurrency, toCurrency)
 
         val conversion = Conversion(
-            userId = conversionRequest.userId,
-            fromCurrency = conversionRequest.fromCurrency,
-            toCurrency = conversionRequest.toCurrency,
-            originalAmount = conversionRequest.amount,
+            userId = userId,
+            fromCurrency = fromCurrency,
+            toCurrency = toCurrency,
+            originalAmount = amount,
             conversionRate = conversionRate,
             timestamp = LocalDateTime.now()
         )
