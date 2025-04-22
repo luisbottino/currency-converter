@@ -238,3 +238,11 @@ Reports for test results can be found in:
 ```
 /build/reports/tests/test/index.html
 ```
+### **Live Demo**
+The application is deployed and available online through Heroku.
+
+🔗 **Swagger UI:**  
+[https://currency-converter-api-app-09186484bae0.herokuapp.com/swagger-ui.html](https://currency-converter-api-app-09186484bae0.herokuapp.com/swagger-ui.html)
+
+> ⚠️ The application running on Heroku is configured to use the **real external API** for exchange rates.  
+> Be aware that the external API may **enforce request limits**, especially for free plans. Use it moderately during testing.
