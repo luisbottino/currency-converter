@@ -168,8 +168,8 @@ class CurrencyConversionControllerV1IntegrationTest
 
             val request = mapOf(
                 "userId" to TestData.DEFAULT_USER_ID,
-                "fromCurrency" to TestData.USD_CURRENCY,
-                "toCurrency" to TestData.BRL_CURRENCY,
+                "fromCurrency" to TestData.BRL_CURRENCY,
+                "toCurrency" to TestData.USD_CURRENCY,
                 "amount" to TestData.DEFAULT_ORIGINAL_AMOUNT
             )
 
@@ -181,8 +181,8 @@ class CurrencyConversionControllerV1IntegrationTest
                 .andExpect(status().isOk)
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.userId").value(TestData.DEFAULT_USER_ID))
-                .andExpect(jsonPath("$.fromCurrency").value(TestData.USD_CURRENCY))
-                .andExpect(jsonPath("$.toCurrency").value(TestData.BRL_CURRENCY))
+                .andExpect(jsonPath("$.fromCurrency").value(TestData.BRL_CURRENCY))
+                .andExpect(jsonPath("$.toCurrency").value(TestData.USD_CURRENCY))
                 .andExpect(jsonPath("$.originalAmount").value(TestData.DEFAULT_ORIGINAL_AMOUNT.toDouble()))
                 .andExpect(jsonPath("$.conversionRate").value(0.2))
                 .andExpect(jsonPath("$.convertedAmount").value(20.0))

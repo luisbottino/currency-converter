@@ -33,10 +33,10 @@ class ExchangeRateService(
             throw CurrencyRateNotFoundException(from, to)
         }
 
-        val conversionRate = fromRate.divide(toRate, DIVISION_SCALE, RoundingMode.HALF_UP)
+        val conversionRate = toRate.divide(fromRate, DIVISION_SCALE, RoundingMode.HALF_UP)
         logger.debug(
             "Conversion rate from '{}' to '{}' is {} ({} / {})",
-            from, to, conversionRate, fromRate, toRate
+            from, to, conversionRate, toRate, fromRate
         )
 
         return conversionRate

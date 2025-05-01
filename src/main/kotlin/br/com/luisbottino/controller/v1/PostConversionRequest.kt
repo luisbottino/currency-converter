@@ -25,7 +25,7 @@ data class PostConversionRequest(
     val toCurrency: String?,
 
     @field:NotNull(message = "The amount must not be null.")
-    @field:DecimalMin(value = "0.00", message = "The amount must be greater than or equal to 0.")
+    @field:DecimalMin(value = "0.01", message = "The amount must be greater than or equal to 0.")
     @Schema(description = "Amount of money to convert", example = "100.00", required = true)
     val amount: BigDecimal?
 )

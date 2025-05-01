@@ -26,9 +26,9 @@ class ExchangeRateServiceTest{
     TestData.USD_CURRENCY to BigDecimal.ONE,
     TestData.BRL_CURRENCY to TestData.DEFAULT_CONVERSION_COTATION
    )
-   every { exchangeWebClient.getRates(TestData.USD_CURRENCY, TestData.BRL_CURRENCY) } returns rates
+   every { exchangeWebClient.getRates(TestData.BRL_CURRENCY, TestData.USD_CURRENCY) } returns rates
 
-   val result = service.getConversionRate(TestData.USD_CURRENCY, TestData.BRL_CURRENCY)
+   val result = service.getConversionRate(TestData.BRL_CURRENCY, TestData.USD_CURRENCY)
 
    assertThat(result).isEqualByComparingTo(TestData.DEFAULT_CONVERSION_RATE.setScale(10))
   }
